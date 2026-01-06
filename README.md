@@ -118,23 +118,37 @@ The implementation of more detection methods, as well as their evaluations, are 
 
 
 ## ⏳ Quick Start
+### 0. Prepare environtment
+Because colab itshelf is a virtual environtment so we need to downgrade python version
+run the following shell in collab.
+Notice that this code'll create a parallel python. From now on all the code execute as !python3 will be run on python 3.8.2.
+Code executed in the cell will still run with colab python version (currently 3.12)
 
+```
+!apt-get update -y
+!apt-get install python3.8 python3.8-distutils python3.8-dev git build-essential cmake -y
+
+!update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
+!update-alternatives --set python3 /usr/bin/python3.8
+
+!curl https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
+!python3 get-pip.py --force-reinstall
+import sys
+!python --version
+!pip --version
+```
 ### 1. Installation
 (option 1) You can run the following script to configure the necessary environment:
 
 ```
 git clone git@github.com:SCLBD/DeepfakeBench.git
 cd DeepfakeBench
-conda create -n DeepfakeBench python=3.7.2
-conda activate DeepfakeBench
 sh install.sh
 ```
-
-(option 2) You can also utilize the supplied [`Dockerfile`](./Dockerfile) to set up the entire environment using Docker. This will allow you to execute all the codes in the benchmark without encountering any environment-related problems. Simply run the following commands to enter the Docker environment.
-
+### Next step the dlib will get error then install the following script to fullfill code requirement
 ```
-docker build -t DeepfakeBench .
-docker run --gpus all -itd -v /path/to/this/repository:/app/ --shm-size 64G DeepfakeBench
+!pip install "cmake<4.0.0"
+!pip install dlib==19.24.0 --verbose
 ```
 Note we used Docker version `19.03.14` in our setup. We highly recommend using this version for consistency, but later versions of Docker may also be compatible.
 
@@ -515,3 +529,4 @@ This repository is licensed by [The Chinese University of Hong Kong, Shenzhen](h
 This project is built by the Secure Computing Lab of Big Data (SCLBD) at The School of Data Science (SDS) of The Chinese University of Hong Kong, Shenzhen, directed by Professor [Baoyuan Wu](https://sites.google.com/site/baoyuanwu2015/home). SCLBD focuses on the research of trustworthy AI, including backdoor learning, adversarial examples, federated learning, fairness, etc.
 
 If you have any suggestions, comments, or wish to contribute code or propose methods, we warmly welcome your input. Please contact us at wubaoyuan@cuhk.edu.cn or yanzhiyuan1114@gmail.com. We look forward to collaborating with you in pushing the boundaries of deepfake detection.
+
